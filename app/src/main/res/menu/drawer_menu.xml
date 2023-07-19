@@ -6,21 +6,28 @@
         android:title="Anniversary"
         android:icon="@drawable/anniversary"
         android:checked="true"
+        android:checkable="true"
 
         />
     <item
         android:id="@+id/menu_DarkMood"
         android:title="Dark Mood"
         android:icon="@drawable/baseline_brightness_2_24"
+        android:checked="true"
+        android:checkable="true"
         />
     <item
         android:id="@+id/menu_language"
         android:title="Language"
         android:icon="@drawable/language"
+        android:checked="true"
+        android:checkable="true"
         />
     <item
         android:id="@+id/menu_Setting"
         android:title="Setting"
         android:icon="@drawable/settings"
+        android:checked="true"
+        android:checkable="true"
         />
 </menu>
