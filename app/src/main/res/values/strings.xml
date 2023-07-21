@@ -2,4 +2,7 @@
     <string name="app_name">lovely</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="OpenDrawer" />
+    <string name="CloseDrawer" />
+    <string name="backgroundImageView">backgroundImageView</string>
 </resources>

@@ -4,8 +4,7 @@
     android:id="@+id/Toolbar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:theme="@style/Theme.AppCompat"
-    android:background="?attr/background"
-    app:titleTextColor="?attr/colorOnBackground">
+    android:theme="@style/ToolbarTransparent"
+    >
 
 </androidx.appcompat.widget.Toolbar>

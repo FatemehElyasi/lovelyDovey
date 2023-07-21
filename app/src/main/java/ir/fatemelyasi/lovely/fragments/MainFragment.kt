@@ -1,18 +1,13 @@
 package ir.fatemelyasi.lovely.fragments
 
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
-import android.content.pm.PackageManager
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import android.widget.TextView
-import android.widget.Toast
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import ir.fatemelyasi.lovely.Manifest
+import androidx.fragment.app.Fragment
 import ir.fatemelyasi.lovely.R
 import ir.fatemelyasi.lovely.databinding.FragmentMainBinding
 import java.util.*
@@ -38,6 +33,7 @@ class MainFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("ResourceAsColor")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -70,9 +66,9 @@ class MainFragment : Fragment() {
         val heartAnimation = AnimationUtils.loadAnimation(requireContext(), R.anim.animate)
         binding.btnSendMassage.startAnimation(heartAnimation)
         //-----------------------------------------------------------------
+        binding.cardview.cardElevation = 0f
 
-
-
+        binding.cardview.setCardBackgroundColor(android.R.color.transparent)
     }
 
 }

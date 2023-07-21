@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".fragments.MainFragment">
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,29 +13,22 @@
         android:orientation="vertical">
 
         <androidx.cardview.widget.CardView
-
+            android:id="@+id/cardview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="4dp"
-            android:backgroundTint="?attr/background">
+            android:layout_marginTop="32dp"
+            app:cardBackgroundColor="@android:color/transparent"
+            tools:ignore="ExtraText">
+            >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="8dp"
-                android:text="love"
-                android:textColor="?attr/colorOnSecondary"
-                android:textSize="30sp"
-                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/txtper"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="150dp"
+                android:layout_marginTop="80dp"
                 android:text="0"
                 android:textSize="70sp"
                 android:textStyle="bold" />
@@ -46,7 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="230dp"
+                android:layout_marginTop="170dp"
                 android:text="Days"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -56,11 +48,11 @@
                 android:layout_width="230dp"
                 android:layout_height="230dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="80dp"
+                android:layout_marginTop="20dp"
                 android:indeterminateOnly="false"
-                android:progress="75"
+                android:progress="100"
                 android:progressDrawable="@drawable/progshape"
-                tools:progress="1">
+                tools:progress="100">
 
             </ProgressBar>
 
@@ -86,16 +78,15 @@
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnSendMassage"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="2dp"
                 android:background="@drawable/heart_icon"
                 android:elevation="30dp"
-                android:inputType="textCapSentences"
                 android:padding="10dp"
                 android:shadowColor="#7061D7"
-                android:text="send"
+                android:text=""
                 android:textColor="@color/white"
                 android:textSize="17sp"
                 android:textStyle="bold" />
@@ -107,15 +98,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="160dp"
             android:orientation="horizontal">
 
             <LinearLayout
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="32dp"
                 android:layout_marginEnd="60dp"
+                android:gravity="center_horizontal"
                 android:orientation="vertical">
 
 
@@ -139,16 +130,15 @@
             </LinearLayout>
 
             <LinearLayout
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
                 android:layout_marginStart="60dp"
-                android:layout_marginTop="32dp"
-                android:orientation="vertical"
-                android:padding="3dp"
-                tools:ignore="ExtraText">
+                android:gravity="center_vertical"
+                android:orientation="vertical">
 
-                <ImageView
+
+            <ImageView
                     android:id="@+id/imageView2"
                     android:layout_width="100dp"
                     android:layout_height="100dp"

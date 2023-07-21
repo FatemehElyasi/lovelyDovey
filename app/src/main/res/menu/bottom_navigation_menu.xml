@@ -10,14 +10,12 @@
     <item
         android:id="@+id/menu_home"
         android:icon="@drawable/home"
-        android:checked="true"
         android:checkable="true"
         android:title="Home" />
 
     <item
         android:id="@+id/menu_chart"
         android:icon="@drawable/chart"
-        android:checked="true"
         android:checkable="true"
         android:title="Chart" />
 </menu>

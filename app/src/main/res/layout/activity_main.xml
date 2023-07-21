@@ -7,16 +7,24 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context=".MainActivity"
+    android:pointerIcon="all_scroll"
+    app:itemIconTint="@color/red"
     tools:openDrawer="start"
     >
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
+        <ImageView
+            android:id="@+id/backgroundImageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/background0"
+            android:scaleType="centerCrop"
+            android:contentDescription="@string/backgroundImageView" />
         <include
-            android:id="@+id/mytoolbar"
-            layout="@layout/mytoolbar"
+            android:id="@+id/myToolbar"
+            layout="@layout/my_toolbar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -39,8 +47,6 @@
             android:elevation="16dp"
             app:menu="@menu/bottom_navigation_menu"
             android:background="?attr/background"
-            app:itemIconTint="@color/red"
-            app:itemTextColor="@color/red"
             android:layout_gravity="bottom"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
