@@ -2,27 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/menu_Anniversary"
+        android:id="@+id/blankFragment"
         android:checkable="true"
         android:checked="true"
         android:icon="@drawable/anniversary"
         android:title="Anniversary"
-
         />
     <item
-        android:id="@+id/menu_DarkMood"
-        android:checkable="true"
-        android:checked="true"
-        android:icon="@drawable/baseline_brightness_2_24"
-        android:title="Dark Mood" />
-    <item
-        android:id="@+id/menu_language"
-        android:checkable="true"
-        android:checked="true"
-        android:icon="@drawable/language"
-        android:title="Language" />
-    <item
-        android:id="@+id/menu_Setting"
+        android:id="@+id/blankFragment2"
         android:checkable="true"
         android:checked="true"
         android:icon="@drawable/settings"

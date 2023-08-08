@@ -4,6 +4,8 @@ plugins {
 
     id 'kotlin-kapt'
     id 'androidx.navigation.safeargs'
+
+    id 'kotlin-parcelize'
 }
 
 android {
@@ -63,9 +65,10 @@ dependencies {
     implementation "androidx.room:room-runtime:2.5.2"
     kapt "androidx.room:room-compiler:2.5.2"
 
-
     //Glide=>
     implementation 'com.github.bumptech.glide:glide:4.13.2'
+    implementation 'jp.wasabeef:glide-transformations:4.3.0'
+    implementation 'jp.co.cyberagent.android:gpuimage:2.1.0'
 
     //circleImage=>
     implementation 'de.hdodenhof:circleimageview:3.1.0'

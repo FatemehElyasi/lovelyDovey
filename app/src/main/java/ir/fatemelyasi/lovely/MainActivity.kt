@@ -1,61 +1,65 @@
 package ir.fatemelyasi.lovely
 
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.navigation.ui.*
 import com.google.android.material.navigation.NavigationView
 import ir.fatemelyasi.lovely.databinding.ActivityMainBinding
+
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
+    private lateinit var navController: NavController
+    private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var toolbar: Toolbar
     private lateinit var navigationView: NavigationView
     private lateinit var drawerLayout: DrawerLayout
-    private lateinit var appBarConfiguration: AppBarConfiguration
-    lateinit var bottomNavigationView: BottomNavigationView
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-    //--------------------------------------------------------------------------
 
+        //--------------------------------------------------------------------------
+
+        navController = findNavController(R.id.fragmentContainerView)
+
+        //Toolbar
         toolbar = findViewById(R.id.myToolbar)
         setSupportActionBar(toolbar)
         toolbar.title = "Lovely"
 
-        drawerLayout = binding.drawer
-        navigationView = binding.navigationViewMain
+        //-------------------------------------------------
 
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
-        val navController = navHostFragment.navController
+        //Bottom Navigation
+        binding.bottomNav.setupWithNavController(navController)
+
+        //-------------------------------------------------
+
+        //drawer layout
+        navigationView = binding.navigationViewMain
 
         appBarConfiguration = AppBarConfiguration(
             setOf(
+                R.id.storyFragment,
                 R.id.mainFragment,
                 R.id.chartFragment,
-                R.id.storyFragment,
-                R.id.blankFragment,
-                R.id.blankFragment2
-            ), drawerLayout
+            ), binding.drawer
         )
-        setupActionBarWithNavController(navController, drawerLayout)
         navigationView.setupWithNavController(navController)
-        //--------------------------------------------------------------------------ActionBarDrawerToggle
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        // and onSupportNavigateUp
+
 
         val actionBarDrawerToggle = ActionBarDrawerToggle(
             this,
@@ -67,49 +71,55 @@ class MainActivity : AppCompatActivity() {
         binding.drawer.addDrawerListener(actionBarDrawerToggle)
         actionBarDrawerToggle.syncState()
 
-        //click item in drawer
-        binding.navigationViewMain.setNavigationItemSelectedListener {
-            when (it.itemId) {
-                R.id.menu_Anniversary -> {
+//        //click item in drawer
+//        binding.navigationViewMain.setNavigationItemSelectedListener {
+//            when (it.itemId) {
+//                R.id.blankFragment -> {
+//
+//                }
+//                R.id.blankFragment2 -> {
+//                    binding.drawer.closeDrawer(GravityCompat.START)
+//                }
+//            }
+//            true
+//        }
 
-                }
-                R.id.menu_Setting -> {
-                    binding.drawer.closeDrawer(GravityCompat.START)
-                }
-                R.id.menu_DarkMood -> {
+        //--------------------------------------------------------------------------bottomNavigationView
+//        binding.bottomNav.setOnItemReselectedListener {
+//            when (it.itemId) {
+//                R.id.StoryFragment ->{}
+//                R.id.MainFragment -> {}
+//                R.id.ChartFragment -> {}
+//                else -> {
+//                }
+//
+//            }
+//
+//        }
 
-                }
-                R.id.menu_language -> {
-
-                }
-            }
-            true
-        }
-
-    //--------------------------------------------------------------------------bottomNavigationView
-        binding.bottomNav.setOnItemReselectedListener {
-            when (it.itemId) {
-                R.id.menu_story -> {
-
-                }
-                R.id.menu_home -> {
-
-                }
-                R.id.menu_chart -> {
-
-                }
-            }
-            true
-        }
-
-    //-------------------------------------------------------------------------
+        //-------------------------------------------------------------------------
     }
 
     //--------------------------------------------------------------------------
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.fragmentContainerView)
-        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    private fun replaceFragment(fragment: Fragment) {
+        val fragmentManager = supportFragmentManager
+        val fragmentTransition = fragmentManager.beginTransaction()
+        fragmentTransition.replace(R.id.fragmentContainerView, fragment)
+        fragmentTransition.commit()
     }
+
+    //for bottom navigation
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return item.onNavDestinationSelected(navController) ||
+                super.onOptionsItemSelected(item)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return findNavController(R.id.fragmentContainerView).navigateUp(appBarConfiguration)
+
+    }
+
+
     //--------------------------------------------------------------------------
 
 }

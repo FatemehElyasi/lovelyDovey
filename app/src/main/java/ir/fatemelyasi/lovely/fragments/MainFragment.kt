@@ -313,5 +313,5 @@ private fun daysPassedText(selectedDate: Long): String {
 //safe arg depend
 //change theme
 //add note pa
-//change progr /
+//change progr
 //firebase

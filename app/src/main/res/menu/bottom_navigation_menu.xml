@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/menu_story"
+        android:id="@+id/storyFragment"
         android:icon="@drawable/pen"
-        android:checked="true"
         android:checkable="true"
-        android:title="Story" />
+        android:checked="false"
+        android:title="@string/story" />
 
     <item
-        android:id="@+id/menu_home"
+        android:id="@+id/mainFragment"
         android:icon="@drawable/home"
         android:checkable="true"
-        android:title="Home" />
+        android:checked="true"
+        android:title="@string/home" />
 
     <item
-        android:id="@+id/menu_chart"
+        android:id="@+id/chartFragment"
         android:icon="@drawable/chart"
         android:checkable="true"
-        android:title="Chart" />
+        android:checked="false"
+        android:title="@string/chart" />
 </menu>

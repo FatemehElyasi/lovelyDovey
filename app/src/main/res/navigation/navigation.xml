@@ -8,18 +8,22 @@
     <fragment
         android:id="@+id/mainFragment"
         android:name="ir.fatemelyasi.lovely.fragments.MainFragment"
-        android:label="fragment_main"
-        tools:layout="@layout/fragment_main" />
+        android:label="Home"
+        tools:layout="@layout/fragment_main">
+
+    </fragment>
     <fragment
         android:id="@+id/chartFragment"
         android:name="ir.fatemelyasi.lovely.fragments.ChartFragment"
-        android:label="fragment_chart"
+        android:label="chart"
         tools:layout="@layout/fragment_chart" />
     <fragment
         android:id="@+id/storyFragment"
         android:name="ir.fatemelyasi.lovely.fragments.StoryFragment"
-        android:label="fragment_story"
-        tools:layout="@layout/fragment_story" />
+        android:label=""
+        tools:layout="@layout/fragment_story">
+
+    </fragment>
     <fragment
         android:id="@+id/splashFragment"
         android:name="ir.fatemelyasi.lovely.fragments.SplashFragment"

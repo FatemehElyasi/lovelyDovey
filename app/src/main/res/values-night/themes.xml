@@ -23,8 +23,9 @@
 
     <style name="ToolbarTransparent" parent="Widget.AppCompat.Toolbar">
         <item name="android:background">@android:color/transparent</item>
-        <item name="android:elevation">0dp</item>
+        <item name="android:elevation">4dp</item>
         <item name="android:textSize">28sp</item>
+        <item name="android:gravity">center_vertical</item>
 
     </style>
 </resources>
