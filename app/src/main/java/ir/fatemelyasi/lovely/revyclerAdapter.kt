@@ -32,7 +32,6 @@ class RecyclerAdapter(private val data: ArrayList<StoryDataRecycler>) :
                 .load(data[position].imageUri)
                 .transform(RoundedCornersTransformation(16, 4))
                 .into(imageViewStoryRecycler)
-
         }
     }
 
@@ -52,5 +51,12 @@ class RecyclerAdapter(private val data: ArrayList<StoryDataRecycler>) :
     override fun getItemCount(): Int {
         return data.size
     }
+    //------------------------
+    @SuppressLint("NotifyDataSetChanged")
+    fun addData(newData: StoryDataRecycler) {
+        data.add(newData)
+        notifyDataSetChanged()
+    }
+
 
 }

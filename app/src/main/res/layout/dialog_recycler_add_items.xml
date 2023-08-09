@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:elevation="16dp"
     android:orientation="vertical"
-    android:padding="14dp">
+    android:padding="14dp"
+    tools:ignore="ExtraText">
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/dialog_date_recycler"
@@ -24,18 +27,20 @@
 
 
     <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="5dp"
-        android:hint="Title"
-        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
+        android:hint="Title">
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/dialog_title_recycler"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -44,7 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:text="Add Photo"
         android:textAlignment="center"
@@ -54,13 +59,12 @@
     <ImageView
         android:id="@+id/dialog_photo_recycler"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="180dp"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp"
         android:layout_marginBottom="5dp"
-        android:src="@drawable/placeholder1"
-
         android:scaleType="centerCrop"
+        android:src="@drawable/placeholder1" />
         />
 
     <androidx.appcompat.widget.AppCompatButton
