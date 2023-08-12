@@ -8,5 +8,5 @@ import kotlinx.parcelize.Parcelize
 data class StoryDataRecycler(
     val date:String,
     var title:String,
-    var imageUri: String? = null
+    var imageUri: String
 ): Parcelable

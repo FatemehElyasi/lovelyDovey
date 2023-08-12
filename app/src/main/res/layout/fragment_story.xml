@@ -6,11 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="34dp"
-    android:layout_marginBottom="36dp"
+    android:layout_marginBottom="56dp"
     tools:context=".fragments.StoryFragment"
     android:orientation="vertical"
-    >
 
+    >
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/Recyclerview"
@@ -20,13 +20,13 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:scrollbars="vertical"
+        android:scrollbars="none|vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        tools:itemCount="2"
+        tools:itemCount="3"
         tools:listitem="@layout/recycler_items" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -41,7 +41,8 @@
         android:clickable="true"
         android:contentDescription="@string/add_your_story"
         android:focusable="true"
-        android:src="@drawable/pen" />
+        android:src="@drawable/pen"
+        tools:ignore="RelativeOverlap" />
 
 
 </RelativeLayout>

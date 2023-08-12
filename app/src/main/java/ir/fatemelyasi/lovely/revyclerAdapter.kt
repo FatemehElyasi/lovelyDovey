@@ -11,52 +11,88 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation
 
-class RecyclerAdapter(private val data: ArrayList<StoryDataRecycler>) :
-    RecyclerView.Adapter<RecyclerAdapter.RecyclerviewHolder>() {
+class RecyclerAdapter(private val data: ArrayList<StoryDataRecycler>, private val foodEvents: FoodEvents) : RecyclerView.Adapter<RecyclerAdapter.FoodViewHolder>() {
 
-
-    inner class RecyclerviewHolder(val context: Context, itemView: View) :
+    inner class FoodViewHolder(itemView: View, private val context: Context) :
         RecyclerView.ViewHolder(itemView) {
+
 
         private val txtDaterRecycler = itemView.findViewById<TextView>(R.id.txtDateRecycler)
         private val txtTitleRecycler = itemView.findViewById<TextView>(R.id.txtTitleRecycler)
-        private val imageViewStoryRecycler = itemView.findViewById<ImageView>(R.id.imageViewStoryRecycler)
+        private val imageViewStoryRecycler =
+            itemView.findViewById<ImageView>(R.id.imageViewStoryRecycler)
 
-        @SuppressLint("CheckResult")
-        fun bindData(position: Int) {
-            txtDaterRecycler.text = data[position].date
-            txtTitleRecycler.text = data[position].title
 
-            Glide
-                .with(context)
-                .load(data[position].imageUri)
-                .transform(RoundedCornersTransformation(16, 4))
-                .into(imageViewStoryRecycler)
+            @SuppressLint("CheckResult")
+            fun bindData(position: Int) {
+                txtDaterRecycler.text = data[position].date
+                txtTitleRecycler.text = data[position].title
+
+
+                Glide
+                    .with(context)
+                    .load(data[position].imageUri)
+                    .transform(RoundedCornersTransformation(16, 4))
+                    .into(imageViewStoryRecycler)
+
+                itemView.setOnClickListener {
+
+                    foodEvents.onFoodClicked()
+
+                }
+
+                itemView.setOnLongClickListener {
+
+                    foodEvents.onFoodLongClicked(data[adapterPosition], adapterPosition)
+
+                    true
+                }
+
+            }
+
         }
+
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoodViewHolder {
+
+            val view =
+                LayoutInflater.from(parent.context).inflate(R.layout.recycler_items, parent, false)
+            return FoodViewHolder(view, parent.context)
+        }
+
+
+        override fun getItemCount(): Int {
+            return data.size
+        }
+
+        override fun onBindViewHolder(holder: FoodViewHolder, position: Int) {
+            holder.bindData(position)
+        }
+
+    fun removeFood(oldFood: StoryDataRecycler, oldPosition: Int) {
+
+        // remove item from list :
+        data.remove(oldFood)
+        notifyItemRemoved(oldPosition)
+
+    }
+    fun addData(newFood: StoryDataRecycler) {
+
+        // add food to list :
+        data.add(0, newFood)
+        notifyItemInserted(0)
+
     }
 
+    interface FoodEvents {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerviewHolder {
+        // 1. create interface in adapter
+        // 2. get an object  of interface in args of adapter
+        // 3. fill (call) object of interface with your data
+        // 4. implementation in MainActivity
 
-        val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.recycler_items, parent, false)
-        return RecyclerviewHolder(parent.context, view)
+        fun onFoodClicked()
+        fun onFoodLongClicked(food: StoryDataRecycler, pos: Int)
 
     }
-
-    override fun onBindViewHolder(holder: RecyclerviewHolder, position: Int) {
-        holder.bindData(position)
-    }
-
-    override fun getItemCount(): Int {
-        return data.size
-    }
-    //------------------------
-    @SuppressLint("NotifyDataSetChanged")
-    fun addData(newData: StoryDataRecycler) {
-        data.add(newData)
-        notifyDataSetChanged()
-    }
-
-
 }

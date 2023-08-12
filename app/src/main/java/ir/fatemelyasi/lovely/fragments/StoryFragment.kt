@@ -9,24 +9,27 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import ir.fatemelyasi.lovely.RecyclerAdapter
 import ir.fatemelyasi.lovely.StoryDataRecycler
+import ir.fatemelyasi.lovely.databinding.DialogDeleteItemBinding
 import ir.fatemelyasi.lovely.databinding.DialogRecyclerAddItemsBinding
 import ir.fatemelyasi.lovely.databinding.FragmentStoryBinding
 import java.text.SimpleDateFormat
 import java.util.*
 
 
-class StoryFragment : Fragment() {
+class StoryFragment : Fragment(), RecyclerAdapter.FoodEvents  {
     private lateinit var binding: FragmentStoryBinding
 
     private val storyList = arrayListOf<StoryDataRecycler>()
@@ -55,7 +58,7 @@ class StoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // fill item list in recycler by dataclass
+//         fill item list in recycler by dataclass
 //        val storyList = arrayListOf(
 //            StoryDataRecycler(
 //                "12.2.1",
@@ -111,13 +114,17 @@ class StoryFragment : Fragment() {
 
         //----------
         //give items to adapter
-        myAdapter = RecyclerAdapter(storyList)
+        myAdapter = RecyclerAdapter(storyList,this)
         binding.Recyclerview.adapter = myAdapter
-        binding.Recyclerview.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        binding.Recyclerview.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
 
         //--------
 
         binding.floatingActionButtonAdd.setOnClickListener {
+
+            Log.e("floatingActionButtonAdd", "float clicked at position ")
+            Toast.makeText(context, "floatingActionButtonAdd", Toast.LENGTH_LONG).show()
+
 
             val alertDialog = MaterialAlertDialogBuilder(requireContext())
             val alertDialogBinding = DialogRecyclerAddItemsBinding.inflate(layoutInflater)
@@ -209,4 +216,32 @@ class StoryFragment : Fragment() {
         val selectedDate = SimpleDateFormat("yyyy-MM-dd", Locale.US).format(calendar.time)
         textView.text = selectedDate
     }
+
+    override fun onFoodClicked() {
+        Toast.makeText(context, "onFoodClicked", Toast.LENGTH_LONG).show()
+
+    }
+
+    override fun onFoodLongClicked(food: StoryDataRecycler, pos: Int) {
+        val dialog = AlertDialog.Builder(requireContext()).create()
+        val dialogDeleteBinding = DialogDeleteItemBinding.inflate(layoutInflater)
+        dialog.setView(dialogDeleteBinding.root)
+        dialog.setCancelable(true)
+        dialog.show()
+
+        dialogDeleteBinding.dialogBtnDeleteCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialogDeleteBinding.dialogBtnDeleteSure.setOnClickListener {
+
+            dialog.dismiss()
+            myAdapter.removeFood( food , pos )
+
+        }
+
+
+    }
+
 }
+

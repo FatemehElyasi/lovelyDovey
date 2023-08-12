@@ -15,7 +15,9 @@
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="46dp"
+        >
         <ImageView
             android:id="@+id/backgroundImageView"
             android:layout_width="match_parent"
@@ -24,6 +26,8 @@
             android:scaleType="centerCrop"
             android:contentDescription="@string/backgroundImageView" />
         <include
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/myToolbar"
             layout="@layout/my_toolbar" />
 
@@ -43,7 +47,8 @@
             android:elevation="16dp"
             app:menu="@menu/bottom_navigation_menu"
             android:background="?attr/background"
-            android:layout_gravity="bottom"/>
+            android:layout_gravity="bottom"
+            tools:ignore="VisualLintBottomNav" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 

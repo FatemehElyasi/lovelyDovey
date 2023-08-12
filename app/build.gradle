@@ -74,5 +74,9 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
 
+    // Adding Sweet Alert Library
+    implementation 'com.github.f0ris.sweetalert:library:1.6.2'
+
+
 
 }
