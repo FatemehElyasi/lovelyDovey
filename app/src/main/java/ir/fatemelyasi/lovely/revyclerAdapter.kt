@@ -11,9 +11,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation
 
-class RecyclerAdapter(private val data: ArrayList<StoryDataRecycler>, private val foodEvents: FoodEvents) : RecyclerView.Adapter<RecyclerAdapter.FoodViewHolder>() {
+class RecyclerAdapter(private val data: ArrayList<StoryDataRecycler>, private val dataEvents: DataEvents) : RecyclerView.Adapter<RecyclerAdapter.StoryViewHolder>() {
 
-    inner class FoodViewHolder(itemView: View, private val context: Context) :
+    inner class StoryViewHolder(itemView: View, private val context: Context) :
         RecyclerView.ViewHolder(itemView) {
 
 
@@ -37,13 +37,13 @@ class RecyclerAdapter(private val data: ArrayList<StoryDataRecycler>, private va
 
                 itemView.setOnClickListener {
 
-                    foodEvents.onFoodClicked()
+                    dataEvents.onStoryClicked(data[adapterPosition],adapterPosition)
 
                 }
 
                 itemView.setOnLongClickListener {
 
-                    foodEvents.onFoodLongClicked(data[adapterPosition], adapterPosition)
+                    dataEvents.onStoryLongClicked(data[adapterPosition], adapterPosition)
 
                     true
                 }
@@ -53,11 +53,11 @@ class RecyclerAdapter(private val data: ArrayList<StoryDataRecycler>, private va
         }
 
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoodViewHolder {
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StoryViewHolder {
 
             val view =
                 LayoutInflater.from(parent.context).inflate(R.layout.recycler_items, parent, false)
-            return FoodViewHolder(view, parent.context)
+            return StoryViewHolder(view, parent.context)
         }
 
 
@@ -65,34 +65,40 @@ class RecyclerAdapter(private val data: ArrayList<StoryDataRecycler>, private va
             return data.size
         }
 
-        override fun onBindViewHolder(holder: FoodViewHolder, position: Int) {
+        override fun onBindViewHolder(holder: StoryViewHolder, position: Int) {
             holder.bindData(position)
         }
-
-    fun removeFood(oldFood: StoryDataRecycler, oldPosition: Int) {
+//-----------------------------------------------------------------
+    fun removeData(oldData: StoryDataRecycler, oldPosition: Int) {
 
         // remove item from list :
-        data.remove(oldFood)
+        data.remove(oldData)
         notifyItemRemoved(oldPosition)
 
     }
-    fun addData(newFood: StoryDataRecycler) {
+    fun addData(newData: StoryDataRecycler) {
 
         // add food to list :
-        data.add(0, newFood)
+        data.add(0, newData)
         notifyItemInserted(0)
 
     }
+    fun updateData(UpdateData: StoryDataRecycler,position: Int) {
 
-    interface FoodEvents {
+        // add food to list :
+        data[position] = UpdateData
+        notifyItemChanged( position )
+    }
+
+    interface DataEvents {
 
         // 1. create interface in adapter
         // 2. get an object  of interface in args of adapter
         // 3. fill (call) object of interface with your data
         // 4. implementation in MainActivity
 
-        fun onFoodClicked()
-        fun onFoodLongClicked(food: StoryDataRecycler, pos: Int)
+        fun onStoryClicked(storyDataUpdate: StoryDataRecycler, oldPosition: Int)
+        fun onStoryLongClicked(storyData: StoryDataRecycler, pos: Int)
 
     }
 }

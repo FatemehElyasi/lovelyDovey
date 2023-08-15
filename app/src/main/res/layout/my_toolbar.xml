@@ -4,11 +4,10 @@
     android:id="@+id/Toolbar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:textAlignment="center"
-    android:theme="@style/ToolbarTransparent">
+    android:background="@null">
 
 </androidx.appcompat.widget.Toolbar>
 
 
-<!--text aligment-->
-<!--gravity-->
+    <!--text aligment-->
+    <!--gravity-->

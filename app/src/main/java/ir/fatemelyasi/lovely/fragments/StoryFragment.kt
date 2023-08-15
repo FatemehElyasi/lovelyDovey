@@ -16,6 +16,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,24 +25,24 @@ import ir.fatemelyasi.lovely.RecyclerAdapter
 import ir.fatemelyasi.lovely.StoryDataRecycler
 import ir.fatemelyasi.lovely.databinding.DialogDeleteItemBinding
 import ir.fatemelyasi.lovely.databinding.DialogRecyclerAddItemsBinding
+import ir.fatemelyasi.lovely.databinding.DialogRecyclerUpdateItemsBinding
 import ir.fatemelyasi.lovely.databinding.FragmentStoryBinding
 import java.text.SimpleDateFormat
 import java.util.*
 
 
-class StoryFragment : Fragment(), RecyclerAdapter.FoodEvents  {
+class StoryFragment : Fragment(), RecyclerAdapter.DataEvents {
+
     private lateinit var binding: FragmentStoryBinding
 
     private val storyList = arrayListOf<StoryDataRecycler>()
-    private lateinit var myAdapter: RecyclerAdapter // تعریف متغیر
+    private lateinit var myAdapter: RecyclerAdapter
 
-
-    private var selectedImageUri: Uri? = null // متغیر برای ذخیره تصویر انتخابی
+    //Variable to save the selected image
+    private var selectedImageUri: Uri? = null
     private var dialogPhotoPreview: ImageView? = null
-    private var dialog: AlertDialog? = null
-    // کدی که وقتی روی تکست‌اینپوت کلیک می‌کند، دیالوگ انتخاب زمان نمایش می‌دهد
-    val calendar = Calendar.getInstance()
 
+    private val calendar = Calendar.getInstance()
 
 
     override fun onCreateView(
@@ -65,71 +66,24 @@ class StoryFragment : Fragment(), RecyclerAdapter.FoodEvents  {
 //                "HkI",
 //                "https://dunijet.ir/YaghootAndroidFiles/DuniFoodSimple/food3.jpg"
 //            ),
-//            StoryDataRecycler(
-//                "12.2.1",
-//                "HkI",
-//                "https://dunijet.ir/YaghootAndroidFiles/DuniFoodSimple/food3.jpg"
-//            ),
-//            StoryDataRecycler(
-//                "12.2.1",
-//                "HkI",
-//                "https://dunijet.ir/YaghootAndroidFiles/DuniFoodSimple/food3.jpg"
-//            ),
-//            StoryDataRecycler(
-//                "12.2.1",
-//                "HkI",
-//                "https://dunijet.ir/YaghootAndroidFiles/DuniFoodSimple/food3.jpg"
-//            ),
-//            StoryDataRecycler(
-//                "12.2.1",
-//                "HkI",
-//                "https://dunijet.ir/YaghootAndroidFiles/DuniFoodSimple/food3.jpg"
-//            ),
-//            StoryDataRecycler(
-//                "12.2.1",
-//                "HkI",
-//                "https://dunijet.ir/YaghootAndroidFiles/DuniFoodSimple/food3.jpg"
-//            ),
-//            StoryDataRecycler(
-//                "12.2.2",
-//                "HjbhvI",
-//                "https://dunijet.ir/YaghootAndroidFiles/DuniFoodSimple/food3.jpg"
-//            ),
-//            StoryDataRecycler(
-//                "12.2.3",
-//                "HI",
-//                "https://dunijet.ir/YaghootAndroidFiles/DuniFoodSimple/food3.jpg"
-//            ),
-//            StoryDataRecycler(
-//                "12.2.4",
-//                "HIhello",
-//                "https://dunijet.ir/YaghootAndroidFiles/DuniFoodSimple/food3.jpg"
-//            ),
-//            StoryDataRecycler(
-//                "12.2.5",
-//                "HIhello",
-//                "https://dunijet.ir/YaghootAndroidFiles/DuniFoodSimple/food3.jpg"
-//            ),
 //        )
 
         //----------
         //give items to adapter
-        myAdapter = RecyclerAdapter(storyList,this)
+        myAdapter = RecyclerAdapter(storyList, this)
         binding.Recyclerview.adapter = myAdapter
-        binding.Recyclerview.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+        binding.Recyclerview.layoutManager =
+            LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
 
         //--------
 
         binding.floatingActionButtonAdd.setOnClickListener {
 
-            Log.e("floatingActionButtonAdd", "float clicked at position ")
-            Toast.makeText(context, "floatingActionButtonAdd", Toast.LENGTH_LONG).show()
-
-
-            val alertDialog = MaterialAlertDialogBuilder(requireContext())
+            val alertDialog = MaterialAlertDialogBuilder(requireContext()).create()
             val alertDialogBinding = DialogRecyclerAddItemsBinding.inflate(layoutInflater)
             alertDialog.setView(alertDialogBinding.root)
             alertDialog.setCancelable(true)
+            alertDialog.show()
 
             alertDialogBinding.dialogDateRecycler.setOnClickListener {
                 showDatePickerDialog(alertDialogBinding.dialogDateRecycler)
@@ -137,8 +91,10 @@ class StoryFragment : Fragment(), RecyclerAdapter.FoodEvents  {
 
             // Find the preview ImageView
             dialogPhotoPreview = alertDialogBinding.dialogPhotoRecycler
+
             alertDialogBinding.dialogPhotoRecycler.setOnClickListener {
-                val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                val intent =
+                    Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
                 startActivityForResult(intent, 1)
 
             }
@@ -146,23 +102,37 @@ class StoryFragment : Fragment(), RecyclerAdapter.FoodEvents  {
             alertDialogBinding.dialogSaveRecycler.setOnClickListener {
 
 
-                dialog?.dismiss()
+                if (
+                    alertDialogBinding.dialogDateRecycler.length() > 0 &&
+                    alertDialogBinding.dialogTitleRecycler.length() > 0
+                ) {
 
-                val selectedDate = SimpleDateFormat("yyyy-MM-dd", Locale.US).format(calendar.time).toString()
-                alertDialogBinding.dialogDateRecycler.text = selectedDate
 
-                val txtTitle = alertDialogBinding.dialogTitleRecycler.text.toString()
+                    val selectedDate =
+                        SimpleDateFormat("yyyy-MM-dd", Locale.US).format(calendar.time)
+                            .toString()
+                    alertDialogBinding.dialogDateRecycler.text = selectedDate
 
-                //prewiew
-                selectedImageUri?.let {
-                    val imageUriString = it.toString()
-                    //-------data
-                    val newStoryData = StoryDataRecycler(selectedDate, txtTitle, imageUriString)
-                    //------ fun add to recycler
-                    myAdapter.addData(newStoryData)
+
+                    val txtTitle = alertDialogBinding.dialogTitleRecycler.text.toString()
+
+                    //preview
+                    selectedImageUri?.let {
+                        val imageUriString = it.toString()
+                        //-------data
+                        val newStoryData =
+                            StoryDataRecycler(selectedDate, txtTitle, imageUriString)
+                        //------ fun add to recycler
+                        myAdapter.addData(newStoryData)
+                    }
+                } else {
+                    Toast.makeText(context, "Please Fill All Filed", Toast.LENGTH_LONG).show()
+                    alertDialog.dismiss()
                 }
+                alertDialog.dismiss()
             }
-            alertDialog.create().show()
+
+
         }
 
     }
@@ -173,7 +143,7 @@ class StoryFragment : Fragment(), RecyclerAdapter.FoodEvents  {
         if (requestCode == 1 && resultCode == Activity.RESULT_OK && data != null) {
             selectedImageUri = data.data
 
-            // تغییر تصویر پیش‌نمایش
+            // Change the preview image
             selectedImageUri?.let {
                 val bitmap = getBitmapFromUri(it)
                 dialogPhotoPreview?.setImageBitmap(bitmap)
@@ -190,6 +160,7 @@ class StoryFragment : Fragment(), RecyclerAdapter.FoodEvents  {
             null
         }
     }
+
     //-----------
     private fun showDatePickerDialog(textView: TextView) {
         val year = calendar.get(Calendar.YEAR)
@@ -217,12 +188,69 @@ class StoryFragment : Fragment(), RecyclerAdapter.FoodEvents  {
         textView.text = selectedDate
     }
 
-    override fun onFoodClicked() {
-        Toast.makeText(context, "onFoodClicked", Toast.LENGTH_LONG).show()
+    //-----------interface
+    override fun onStoryClicked(storyDataUpdate: StoryDataRecycler, pos: Int) {
 
+        val alertDialogUpdate = AlertDialog.Builder(requireContext()).create()
+        val dialogUpdateBinding = DialogRecyclerUpdateItemsBinding.inflate(layoutInflater)
+
+        dialogUpdateBinding.dialogTitleRecycler.setText(storyDataUpdate.title)
+        dialogUpdateBinding.dialogDateRecycler.text = storyDataUpdate.date
+        dialogUpdateBinding.dialogPhotoRecycler.setImageURI(storyDataUpdate.imageUri.toUri())
+
+        alertDialogUpdate.setView(dialogUpdateBinding.root)
+        alertDialogUpdate.setCancelable(true)
+        alertDialogUpdate.show()
+
+        dialogUpdateBinding.dialogCancleRecycler2.setOnClickListener {
+            alertDialogUpdate.dismiss()
+        }
+
+        dialogUpdateBinding.dialogDateRecycler.setOnClickListener {
+            showDatePickerDialog(dialogUpdateBinding.dialogDateRecycler)
+        }
+
+        // Find the preview ImageView
+        dialogPhotoPreview = dialogUpdateBinding.dialogPhotoRecycler
+        dialogUpdateBinding.dialogPhotoRecycler.setOnClickListener {
+            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            startActivityForResult(intent, 1)
+
+        }
+
+        dialogUpdateBinding.dialogSaveRecycler.setOnClickListener {
+
+            if (
+                dialogUpdateBinding.dialogDateRecycler.length() > 0 &&
+                dialogUpdateBinding.dialogTitleRecycler.length() > 0 &&
+                dialogUpdateBinding.dialogPhotoRecycler.drawable != null
+            ) {
+                val selectedDate =
+                    SimpleDateFormat("yyyy-MM-dd", Locale.US).format(calendar.time).toString()
+                dialogUpdateBinding.dialogDateRecycler.text = selectedDate
+
+                val txtTitle = dialogUpdateBinding.dialogTitleRecycler.text.toString()
+
+                //preview
+                selectedImageUri.let {
+                    val imageUriString = it.toString()
+                    //-------data
+                    val newStoryData = StoryDataRecycler(selectedDate, txtTitle, imageUriString)
+                    //------ fun update to recycler
+                    myAdapter.updateData(newStoryData, pos)
+
+                }
+                alertDialogUpdate.dismiss()
+
+            } else {
+                Toast.makeText(context, "Please Fill All Filed", Toast.LENGTH_LONG).show()
+                alertDialogUpdate.dismiss()
+            }
+
+        }
     }
 
-    override fun onFoodLongClicked(food: StoryDataRecycler, pos: Int) {
+    override fun onStoryLongClicked(storyData: StoryDataRecycler, pos: Int) {
         val dialog = AlertDialog.Builder(requireContext()).create()
         val dialogDeleteBinding = DialogDeleteItemBinding.inflate(layoutInflater)
         dialog.setView(dialogDeleteBinding.root)
@@ -236,12 +264,13 @@ class StoryFragment : Fragment(), RecyclerAdapter.FoodEvents  {
         dialogDeleteBinding.dialogBtnDeleteSure.setOnClickListener {
 
             dialog.dismiss()
-            myAdapter.removeFood( food , pos )
+            myAdapter.removeData(storyData, pos)
+            Toast.makeText(context, "removed Data", Toast.LENGTH_LONG).show()
 
         }
 
 
     }
-
+    //-----------
 }
 

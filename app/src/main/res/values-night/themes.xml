@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Theme.Lovely" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
@@ -21,11 +21,5 @@
         <item name="fontFamily">@font/primary_regular</item>
     </style>
 
-    <style name="ToolbarTransparent" parent="Widget.AppCompat.Toolbar">
-        <item name="android:background">@android:color/transparent</item>
-        <item name="android:elevation">4dp</item>
-        <item name="android:textSize">28sp</item>
-        <item name="android:gravity">center_vertical</item>
 
-    </style>
 </resources>

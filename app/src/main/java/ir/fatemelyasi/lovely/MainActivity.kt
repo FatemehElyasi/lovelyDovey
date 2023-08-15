@@ -13,6 +13,9 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.*
 import com.google.android.material.navigation.NavigationView
 import ir.fatemelyasi.lovely.databinding.ActivityMainBinding
+import ir.fatemelyasi.lovely.databinding.FragmentBlank2Binding
+import ir.fatemelyasi.lovely.databinding.FragmentBlankBinding
+import ir.fatemelyasi.lovely.fragments.BlankFragment
 
 
 class MainActivity : AppCompatActivity() {
@@ -38,6 +41,8 @@ class MainActivity : AppCompatActivity() {
         toolbar = findViewById(R.id.myToolbar)
         setSupportActionBar(toolbar)
         toolbar.title = "Lovely"
+        toolbar.background = null
+
 
         //-------------------------------------------------
 
@@ -49,17 +54,18 @@ class MainActivity : AppCompatActivity() {
         //drawer layout
         navigationView = binding.navigationViewMain
 
-        appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.storyFragment,
-                R.id.mainFragment,
-                R.id.chartFragment,
-            ), binding.drawer
-        )
-        navigationView.setupWithNavController(navController)
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        // and onSupportNavigateUp
 
+//        appBarConfiguration = AppBarConfiguration(
+//            setOf(
+//                R.id.storyFragment,
+//                R.id.mainFragment,
+//                R.id.chartFragment,
+//            ), binding.drawer
+//        )
+
+//        navigationView.setupWithNavController(navController)
+//        setupActionBarWithNavController(navController, appBarConfiguration)
+        // and onSupportNavigateUp
 
         val actionBarDrawerToggle = ActionBarDrawerToggle(
             this,
@@ -71,18 +77,19 @@ class MainActivity : AppCompatActivity() {
         binding.drawer.addDrawerListener(actionBarDrawerToggle)
         actionBarDrawerToggle.syncState()
 
-//        //click item in drawer
-//        binding.navigationViewMain.setNavigationItemSelectedListener {
-//            when (it.itemId) {
-//                R.id.blankFragment -> {
-//
-//                }
-//                R.id.blankFragment2 -> {
-//                    binding.drawer.closeDrawer(GravityCompat.START)
-//                }
-//            }
-//            true
-//        }
+        navigationView.setCheckedItem(R.id.blankFragment)
+
+        //click item in drawer
+        binding.navigationViewMain.setNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.blankFragment -> {
+                }
+                R.id.blankFragment2 -> {
+                    binding.drawer.closeDrawer(GravityCompat.START)
+                }
+            }
+            true
+        }
 
         //--------------------------------------------------------------------------bottomNavigationView
 //        binding.bottomNav.setOnItemReselectedListener {

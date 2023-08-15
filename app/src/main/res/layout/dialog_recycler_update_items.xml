@@ -41,7 +41,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLines="3"
-
             />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -69,16 +68,38 @@
         android:src="@drawable/placeholder1" />
         />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/dialog_save_recycler"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
-        android:text="Save"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center"
+        >
 
-        />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/dialog_cancle_recycler2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="Cancle"
+
+            />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/dialog_save_recycler"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="Save"
+
+            />
+    </LinearLayout>
+
 </LinearLayout>
