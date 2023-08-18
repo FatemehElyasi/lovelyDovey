@@ -9,7 +9,6 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,13 +21,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import ir.fatemelyasi.lovely.RecyclerAdapter
-import ir.fatemelyasi.lovely.StoryDataRecycler
+import ir.fatemelyasi.lovely.local.StoryDataRecycler
 import ir.fatemelyasi.lovely.databinding.DialogDeleteItemBinding
 import ir.fatemelyasi.lovely.databinding.DialogRecyclerAddItemsBinding
 import ir.fatemelyasi.lovely.databinding.DialogRecyclerUpdateItemsBinding
 import ir.fatemelyasi.lovely.databinding.FragmentStoryBinding
+import ir.fatemelyasi.lovely.local.Dao
+import ir.fatemelyasi.lovely.local.MyDatabase
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class StoryFragment : Fragment(), RecyclerAdapter.DataEvents {
@@ -43,6 +45,8 @@ class StoryFragment : Fragment(), RecyclerAdapter.DataEvents {
     private var dialogPhotoPreview: ImageView? = null
 
     private val calendar = Calendar.getInstance()
+
+    lateinit var dao: Dao
 
 
     override fun onCreateView(
@@ -59,89 +63,42 @@ class StoryFragment : Fragment(), RecyclerAdapter.DataEvents {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//         fill item list in recycler by dataclass
-//        val storyList = arrayListOf(
-//            StoryDataRecycler(
-//                "12.2.1",
-//                "HkI",
-//                "https://dunijet.ir/YaghootAndroidFiles/DuniFoodSimple/food3.jpg"
-//            ),
-//        )
 
-        //----------
-        //give items to adapter
-        myAdapter = RecyclerAdapter(storyList, this)
-        binding.Recyclerview.adapter = myAdapter
-        binding.Recyclerview.layoutManager =
-            LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+
+        //----------Database
+        //instance of database class
+        dao=MyDatabase.getDatabase(requireContext()).storyDao
+
+        //if first run
+        val sharedPreferences = requireActivity().getPreferences(Activity.MODE_PRIVATE)
+        if (
+            sharedPreferences.getBoolean("first_run",true)
+        ){
+            firstRun()
+            sharedPreferences.edit().putBoolean("first_run",false).apply()
+
+        }
+
+        showAllStory()
+
 
         //--------
 
         binding.floatingActionButtonAdd.setOnClickListener {
 
-            val alertDialog = MaterialAlertDialogBuilder(requireContext()).create()
-            val alertDialogBinding = DialogRecyclerAddItemsBinding.inflate(layoutInflater)
-            alertDialog.setView(alertDialogBinding.root)
-            alertDialog.setCancelable(true)
-            alertDialog.show()
-
-            alertDialogBinding.dialogDateRecycler.setOnClickListener {
-                showDatePickerDialog(alertDialogBinding.dialogDateRecycler)
-            }
-
-            // Find the preview ImageView
-            dialogPhotoPreview = alertDialogBinding.dialogPhotoRecycler
-
-            alertDialogBinding.dialogPhotoRecycler.setOnClickListener {
-                val intent =
-                    Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-                startActivityForResult(intent, 1)
-
-            }
-
-            alertDialogBinding.dialogSaveRecycler.setOnClickListener {
-
-
-                if (
-                    alertDialogBinding.dialogDateRecycler.length() > 0 &&
-                    alertDialogBinding.dialogTitleRecycler.length() > 0
-                ) {
-
-
-                    val selectedDate =
-                        SimpleDateFormat("yyyy-MM-dd", Locale.US).format(calendar.time)
-                            .toString()
-                    alertDialogBinding.dialogDateRecycler.text = selectedDate
-
-
-                    val txtTitle = alertDialogBinding.dialogTitleRecycler.text.toString()
-
-                    //preview
-                    selectedImageUri?.let {
-                        val imageUriString = it.toString()
-                        //-------data
-                        val newStoryData =
-                            StoryDataRecycler(selectedDate, txtTitle, imageUriString)
-                        //------ fun add to recycler
-                        myAdapter.addData(newStoryData)
-                    }
-                } else {
-                    Toast.makeText(context, "Please Fill All Filed", Toast.LENGTH_LONG).show()
-                    alertDialog.dismiss()
-                }
-                alertDialog.dismiss()
-            }
+            addNewStory()
 
 
         }
 
     }
 
+
     //------------
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1 && resultCode == Activity.RESULT_OK && data != null) {
-            selectedImageUri = data.data
+            selectedImageUri = data?.data
 
             // Change the preview image
             selectedImageUri?.let {
@@ -235,9 +192,11 @@ class StoryFragment : Fragment(), RecyclerAdapter.DataEvents {
                 selectedImageUri.let {
                     val imageUriString = it.toString()
                     //-------data
-                    val newStoryData = StoryDataRecycler(selectedDate, txtTitle, imageUriString)
-                    //------ fun update to recycler
+                    val newStoryData = StoryDataRecycler(id = storyDataUpdate.id, date = selectedDate, title = txtTitle, imageUri = imageUriString)
+                    //------ fun update item in recycler
                     myAdapter.updateData(newStoryData, pos)
+                    //------ fun update item in databasse
+                    dao.insertOrUpdate(newStoryData)
 
                 }
                 alertDialogUpdate.dismiss()
@@ -264,13 +223,90 @@ class StoryFragment : Fragment(), RecyclerAdapter.DataEvents {
         dialogDeleteBinding.dialogBtnDeleteSure.setOnClickListener {
 
             dialog.dismiss()
-            myAdapter.removeData(storyData, pos)
+            dao.deleteStory(storyData)
+            myAdapter.removeData(storyData,pos)
             Toast.makeText(context, "removed Data", Toast.LENGTH_LONG).show()
+        }
+    }
+    //-----------
+    private fun showAllStory() {
+        val storyDao=dao.getAllStory()
+        //----------
+        //give items to adapter
+        myAdapter = RecyclerAdapter(ArrayList(storyDao), this)
+        binding.Recyclerview.adapter = myAdapter
+        binding.Recyclerview.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+
+    }
+     private fun firstRun(){
+
+         //fill item list in recycler by dataclass
+        val storyList = arrayListOf(
+            StoryDataRecycler(
+                date = "12.2.1",
+                title = "HkI",
+                imageUri = "https://dunijet.ir/YaghootAndroidFiles/DuniFoodSimple/food3.jpg"
+            ),
+        )
+         //add data to database
+         dao.insertAllStory(storyList)
+    }
+    private fun addNewStory() {
+
+        val alertDialog = MaterialAlertDialogBuilder(requireContext()).create()
+        val alertDialogBinding = DialogRecyclerAddItemsBinding.inflate(layoutInflater)
+        alertDialog.setView(alertDialogBinding.root)
+        alertDialog.setCancelable(true)
+        alertDialog.show()
+
+        alertDialogBinding.dialogDateRecycler.setOnClickListener {
+            showDatePickerDialog(alertDialogBinding.dialogDateRecycler)
+        }
+
+        // Find the preview ImageView
+        dialogPhotoPreview = alertDialogBinding.dialogPhotoRecycler
+
+        alertDialogBinding.dialogPhotoRecycler.setOnClickListener {
+            val intent =
+                Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            startActivityForResult(intent, 1)
 
         }
 
+        alertDialogBinding.dialogSaveRecycler.setOnClickListener {
+
+            if (
+                alertDialogBinding.dialogDateRecycler.length() > 0 &&
+                alertDialogBinding.dialogTitleRecycler.length() > 0
+            ) {
+
+
+                val selectedDate =
+                    SimpleDateFormat("yyyy-MM-dd", Locale.US).format(calendar.time)
+                        .toString()
+                alertDialogBinding.dialogDateRecycler.text = selectedDate
+
+
+                val txtTitle = alertDialogBinding.dialogTitleRecycler.text.toString()
+
+                //preview
+                selectedImageUri?.let {
+                    val imageUriString = it.toString()
+                    //-------data
+                    val newStoryData = StoryDataRecycler( date = selectedDate, title =  txtTitle, imageUri =  imageUriString)
+                    //------ fun add to recycler
+                    myAdapter.addData(newStoryData)
+                    //------ fun add to database
+                    dao.insertOrUpdate(newStoryData)
+                }
+            } else {
+                Toast.makeText(context, "Please Fill All Filed", Toast.LENGTH_LONG).show()
+                alertDialog.dismiss()
+            }
+            alertDialog.dismiss()
+        }
 
     }
-    //-----------
+
 }
 

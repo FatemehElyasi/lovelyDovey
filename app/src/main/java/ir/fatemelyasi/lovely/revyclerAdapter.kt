@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import ir.fatemelyasi.lovely.local.StoryDataRecycler
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation
 
 class RecyclerAdapter(private val data: ArrayList<StoryDataRecycler>, private val dataEvents: DataEvents) : RecyclerView.Adapter<RecyclerAdapter.StoryViewHolder>() {
@@ -83,7 +84,7 @@ class RecyclerAdapter(private val data: ArrayList<StoryDataRecycler>, private va
         notifyItemInserted(0)
 
     }
-    fun updateData(UpdateData: StoryDataRecycler,position: Int) {
+    fun updateData(UpdateData: StoryDataRecycler, position: Int) {
 
         // add food to list :
         data[position] = UpdateData
