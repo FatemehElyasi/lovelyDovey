@@ -78,6 +78,7 @@ dependencies {
     // Adding Sweet Alert Library
     implementation 'com.github.f0ris.sweetalert:library:1.6.2'
 
-
+    //ImagePicker put image from gallery
+    implementation 'com.github.Drjacky:ImagePicker:2.3.22'
 
 }

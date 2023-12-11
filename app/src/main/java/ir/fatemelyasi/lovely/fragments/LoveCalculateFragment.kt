@@ -6,17 +6,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import ir.fatemelyasi.lovely.R
+import ir.fatemelyasi.lovely.databinding.FragmentChartBinding
+import ir.fatemelyasi.lovely.databinding.FragmentLoveCalculateBinding
 
 
-class BlankFragment : Fragment() {
+class LoveCalculateFragment : Fragment() {
+
+    lateinit var binding: FragmentLoveCalculateBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_blank, container, false)
-    }
 
+        binding = FragmentLoveCalculateBinding.inflate(layoutInflater,container , false)
+
+        return binding.root
+    }
 
 }

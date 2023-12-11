@@ -2,14 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/blankFragment"
+        android:id="@+id/gender_guesser_fragment"
         android:checkable="true"
         android:checked="true"
         android:icon="@drawable/anniversary"
         android:title="Anniversary"
         />
     <item
-        android:id="@+id/blankFragment2"
+        android:id="@+id/LoveCalculate_Fragment"
         android:checkable="true"
         android:checked="true"
         android:icon="@drawable/settings"

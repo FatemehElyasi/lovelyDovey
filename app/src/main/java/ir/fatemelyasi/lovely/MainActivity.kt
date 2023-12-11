@@ -13,9 +13,6 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.*
 import com.google.android.material.navigation.NavigationView
 import ir.fatemelyasi.lovely.databinding.ActivityMainBinding
-import ir.fatemelyasi.lovely.databinding.FragmentBlank2Binding
-import ir.fatemelyasi.lovely.databinding.FragmentBlankBinding
-import ir.fatemelyasi.lovely.fragments.BlankFragment
 
 
 class MainActivity : AppCompatActivity() {
@@ -77,14 +74,14 @@ class MainActivity : AppCompatActivity() {
         binding.drawer.addDrawerListener(actionBarDrawerToggle)
         actionBarDrawerToggle.syncState()
 
-        navigationView.setCheckedItem(R.id.blankFragment)
+        navigationView.setCheckedItem(R.id.gender_guesser_fragment)
 
         //click item in drawer
         binding.navigationViewMain.setNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.blankFragment -> {
+                R.id.gender_guesser_fragment -> {
                 }
-                R.id.blankFragment2 -> {
+                R.id.LoveCalculate_Fragment -> {
                     binding.drawer.closeDrawer(GravityCompat.START)
                 }
             }

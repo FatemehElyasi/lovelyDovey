@@ -8,15 +8,15 @@ import android.view.ViewGroup
 import ir.fatemelyasi.lovely.R
 
 
-class BlankFragment2 : Fragment() {
-
+class GenderGuesserFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_blank2, container, false)
+        return inflater.inflate(R.layout.fragment_blank, container, false)
     }
+
 
 }

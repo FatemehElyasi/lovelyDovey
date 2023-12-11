@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
+    android:label="chartFragment"
     app:startDestination="@id/mainFragment">
 
     <fragment
@@ -15,8 +17,8 @@
     <fragment
         android:id="@+id/chartFragment"
         android:name="ir.fatemelyasi.lovely.fragments.ChartFragment"
-        android:label="chart"
-        tools:layout="@layout/fragment_chart" />
+        android:label="chartFragment"
+        tools:layout="@layout/fragment_chart"/>
     <fragment
         android:id="@+id/storyFragment"
         android:name="ir.fatemelyasi.lovely.fragments.StoryFragment"
@@ -30,13 +32,13 @@
         android:label="fragment_splash"
         tools:layout="@layout/fragment_splash" />
     <fragment
-        android:id="@+id/blankFragment"
-        android:name="ir.fatemelyasi.lovely.fragments.BlankFragment"
-        android:label="fragment_blank"
+        android:id="@+id/gender_guesser_fragment"
+        android:name="ir.fatemelyasi.lovely.fragments.GenderGuesserFragment"
+        android:label="gender_guesser"
         tools:layout="@layout/fragment_blank" />
     <fragment
-        android:id="@+id/blankFragment2"
-        android:name="ir.fatemelyasi.lovely.fragments.BlankFragment2"
-        android:label="fragment_blank2"
-        tools:layout="@layout/fragment_blank2" />
+        android:id="@+id/LoveCalculate_Fragment"
+        android:name="ir.fatemelyasi.lovely.fragments.LoveCalculateFragment"
+        android:label="LoveCalculate_Fragment"
+        tools:layout="@layout/fragment_love_calculate" />
 </navigation>
