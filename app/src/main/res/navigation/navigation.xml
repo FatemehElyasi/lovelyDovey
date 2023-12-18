@@ -16,9 +16,9 @@
     </fragment>
     <fragment
         android:id="@+id/chartFragment"
-        android:name="ir.fatemelyasi.lovely.fragments.ChartFragment"
+        android:name="ir.fatemelyasi.lovely.fragments.GameFragment"
         android:label="chartFragment"
-        tools:layout="@layout/fragment_chart"/>
+        tools:layout="@layout/fragment_game"/>
     <fragment
         android:id="@+id/storyFragment"
         android:name="ir.fatemelyasi.lovely.fragments.StoryFragment"
@@ -35,7 +35,7 @@
         android:id="@+id/gender_guesser_fragment"
         android:name="ir.fatemelyasi.lovely.fragments.GenderGuesserFragment"
         android:label="gender_guesser"
-        tools:layout="@layout/fragment_blank" />
+        tools:layout="@layout/fragment_gender_guesser" />
     <fragment
         android:id="@+id/LoveCalculate_Fragment"
         android:name="ir.fatemelyasi.lovely.fragments.LoveCalculateFragment"

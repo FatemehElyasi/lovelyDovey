@@ -6,13 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import ir.fatemelyasi.lovely.R
-import ir.fatemelyasi.lovely.databinding.FragmentChartBinding
 import ir.fatemelyasi.lovely.databinding.FragmentLoveCalculateBinding
 
 
 class LoveCalculateFragment : Fragment() {
 
-    lateinit var binding: FragmentLoveCalculateBinding
+    private lateinit var binding: FragmentLoveCalculateBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

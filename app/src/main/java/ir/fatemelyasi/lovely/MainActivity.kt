@@ -93,7 +93,7 @@ class MainActivity : AppCompatActivity() {
 //            when (it.itemId) {
 //                R.id.StoryFragment ->{}
 //                R.id.MainFragment -> {}
-//                R.id.ChartFragment -> {}
+//                R.id.GameFragment -> {}
 //                else -> {
 //                }
 //
