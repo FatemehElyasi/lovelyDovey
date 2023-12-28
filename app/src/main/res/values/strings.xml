@@ -9,4 +9,7 @@
     <string name="game">game</string>
     <string name="add_your_story">add your story</string>
     <string name="tablayout">TabLayout</string>
+    <string name="enter_your_name">enter your name</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

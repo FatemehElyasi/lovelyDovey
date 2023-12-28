@@ -18,6 +18,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import android.widget.TextView
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -26,15 +28,22 @@ import com.bumptech.glide.Glide
 import ir.fatemelyasi.lovely.R
 import ir.fatemelyasi.lovely.databinding.FragmentMainBinding
 import kotlinx.coroutines.launch
-import java.util.*
-
+import java.util.Calendar
 
 class MainFragment : Fragment() {
 
-    lateinit var binding: FragmentMainBinding
+
+    private lateinit var binding: FragmentMainBinding
+
+    // SharedPreferences file name
+    private val PREFS_NAME = "MyPrefs"
+
+    // Key for storing and retrieving text in SharedPreferences
+    private val TEXT_KEY_BOY = "textKeyBoy"
 
     // initialization to select the date as the current date
     private var selectedDate: Long = 0
+
     // We save the selected date in the calendar
     private val calendar = Calendar.getInstance()
 
@@ -43,6 +52,7 @@ class MainFragment : Fragment() {
 
     //SharedPreferences
     private lateinit var sharedPreferences: SharedPreferences
+
 
     private val PREFS_KEY_SELECTED_IMAGE_URI_GIRL = "selected_image_uri_GIRL"
     private val PREFS_KEY_SELECTED_IMAGE_URI_BOY = "selected_image_uri_BOY"
@@ -56,14 +66,16 @@ class MainFragment : Fragment() {
     private var selectedImageUriGirl: Uri? = null
     private var selectedImageUriBoy: Uri? = null
 
+    private var editTextNameDialog: String? = null
+    private lateinit var textView: TextView
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         binding = FragmentMainBinding.inflate(inflater, container, false)
-        // Inflate the layout for this fragment
         return binding.root
     }
 
@@ -113,7 +125,47 @@ class MainFragment : Fragment() {
         //-----------------------------------------------------------------AnimationUtils
         val heartAnimation = AnimationUtils.loadAnimation(requireContext(), R.anim.animate)
         binding.btnSendMassage.startAnimation(heartAnimation)
+        //-----------------------------------------------------------------textviewBoy
+
+        // Initialize SharedPreferences
+        sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+
+//        binding.textViewBoy.text = sharedPreferences.getString("TEXT_KEY", "متن پیش‌فرض")
+
+
+        binding.textViewBoy.setOnClickListener {
+
+            //way1
+//           val mainDialog = AlertDialogName()
+//            mainDialog.arguments= Bundle()
+//            mainDialog.show(parentFragmentManager, "alertDialogName")
+//
+//            val editTextName = mainDialog.getString(KEY_SEND_DATA)
+//            binding.textViewBoy.text=""
+
+           //way2
+           val mainDialog = AlertDialogName()
+            mainDialog.show(parentFragmentManager, "alertDialogName")
+
+            val bundle=arguments
+            if (bundle!=null){
+                val editTextName = bundle.getString(KEY_SEND_DATA)
+                binding.textViewBoy.text=editTextName
+            }else{
+                Toast.makeText(context, "enter", Toast.LENGTH_SHORT).show()
+            }
+
+
+        }
+
+
+//        with(sharedPreferences.edit()) {
+//            putString("TEXT_KEY", )
+//            apply()
+//        }
+
         //-----------------------------------------------------------------
+
         binding.cardview.cardElevation = 0f
 
         binding.cardview.setCardBackgroundColor(android.R.color.transparent)
@@ -154,6 +206,8 @@ class MainFragment : Fragment() {
         binding.circularImageViewboy.setOnClickListener {
             openGalleryForBoy()
         }
+
+
     }
 
     private fun openGalleryForGirl() {
@@ -184,6 +238,7 @@ class MainFragment : Fragment() {
                         checkPermissionREAD_EXTERNAL_STORAGE(requireContext())
                     }
                 }
+
                 PICK_IMAGE_REQUEST_BOY -> {
                     data?.data?.let { uri ->
                         selectedImageUriBoy = uri
@@ -299,19 +354,13 @@ class MainFragment : Fragment() {
         val alertDialog = alertDialogBuilder.create()
         alertDialog.show()
     }
-}
 
-//---------------------------------------------------daysPassedText
-private fun daysPassedText(selectedDate: Long): String {
-    val currentDate = Calendar.getInstance().timeInMillis
-    val daysPassed = (currentDate - selectedDate) / (24 * 60 * 60 * 1000)
-    return "$daysPassed"
+    //---------------------------------------------------daysPassedText
+    private fun daysPassedText(selectedDate: Long): String {
+        val currentDate = Calendar.getInstance().timeInMillis
+        val daysPassed = (currentDate - selectedDate) / (24 * 60 * 60 * 1000)
+        return "$daysPassed"
+    }
+
+//---------------------------------------------------
 }
-//TO DO ->
-//shared preference
-//notes
-//safe arg depend
-//change theme
-//add note pa
-//change progr
-//firebase

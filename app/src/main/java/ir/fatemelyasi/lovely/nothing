@@ -1,2 +1,122 @@
 
+override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
 
+    // در اینجا می‌توانید به View های XML از طریق binding دسترسی پیدا کرده و آن‌ها را با کدهای خود تغییر دهید
+    binding.editTextNameDialog.setOnClickListener {
+        val updatedText = binding.editTextNameDialog.text.toString()
+        // انجام عملیات لازم با متن به‌دست آمده
+        dismiss()  // بستن دیالوگ پس از انجام عملیات
+    }
+}
+override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
+
+    // در اینجا می‌توانید به View های XML از طریق binding دسترسی پیدا کرده و آن‌ها را با کدهای خود تغییر دهید
+    binding.editTextNameDialog.setOnClickListener {
+        val updatedText = binding.editTextNameDialog.text.toString()
+        // انجام عملیات لازم با متن به‌دست آمده
+        dismiss()  // بستن دیالوگ پس از انجام عملیات
+    }
+}
+//            val bundle = Bundle().apply {
+//                putString("name", )
+//            }
+//
+//            val fragmentManager = supportFragmentManager
+//            val userPopUp = UserPopUp()
+
+            //            userPopUp.arguments = bundle
+//            userPopUp.show(fragmentManager, "followers")
+-------------------------------------
+package ir.fatemelyasi.lovely
+
+import android.app.AlertDialog
+import android.app.Dialog
+import android.content.DialogInterface
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.DialogFragment
+import ir.fatemelyasi.lovely.databinding.AlertDialogNameBinding
+import ir.fatemelyasi.lovely.fragments.MainFragment
+
+const val KEY_SEND_DATA = "NAME_USER"
+
+class AlertDialogName : DialogFragment() {
+
+    private lateinit var binding: AlertDialogNameBinding
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?,
+    ): View? {
+        binding = AlertDialogNameBinding.inflate(inflater, container, false)
+        return binding.root
+
+    }
+//----------------------------------------------------------------------------way2
+//mainActivity
+       val firstFragment = DialogFragment()
+       supportFragmentManager.beginTransaction().replace(R.id.content_id, firstFragment).commit()
+
+    override fun passDataCom(editTextInput: String) {
+        val bundle = Bundle()
+        bundle.putString("inputText", editTextInput)
+        val transaction = this.supportFragmentManager.beginTransaction()
+        val fragmentTwo = MainFragment()
+        fragmentTwo.arguments = bundle
+        transaction.replace(R.id.content_id, fragmentTwo)
+        transaction.addToBackStack(null)
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+        transaction.commit()
+    }
+}
+interface Communicator {
+    fun passDataCom(editTextInput: String)
+}
+
+    private var inputData: String? = null
+
+            val inputText = arguments?.getString("inputText")
+            binding.textViewBoy.text = inputText
+
+
+  //fragmentdialog
+  private lateinit var communicator: Communicator
+
+  val name = binding.editTextNameDialog.text.toString()
+
+          communicator = activity as Communicator
+          binding.btnok.setOnClickListener {
+              communicator.passDataCom(binding.editTextNameDialog.text.toString())
+          }
+//---------------------------------buttens in fragment name
+ <LinearLayout
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        >
+
+        <Button
+            android:id="@+id/btnok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="OK"
+            android:textColor="?attr/colorOnBackground"
+            />
+
+        <Button
+            android:id="@+id/btncancle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Cancel"
+            android:textColor="?attr/colorOnBackground"
+            />
+    </LinearLayout>
