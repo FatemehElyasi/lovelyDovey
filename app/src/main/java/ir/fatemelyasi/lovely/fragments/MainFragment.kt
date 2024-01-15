@@ -26,13 +26,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import ir.fatemelyasi.lovely.R
+import ir.fatemelyasi.lovely.databinding.DialogFragmentNameBinding
 import ir.fatemelyasi.lovely.databinding.FragmentMainBinding
 import kotlinx.coroutines.launch
 import java.util.Calendar
 
 class MainFragment : Fragment() {
-
-
     private lateinit var binding: FragmentMainBinding
 
     // SharedPreferences file name
@@ -135,27 +134,24 @@ class MainFragment : Fragment() {
 
         binding.textViewBoy.setOnClickListener {
 
-            //way1
-//           val mainDialog = AlertDialogName()
-//            mainDialog.arguments= Bundle()
-//            mainDialog.show(parentFragmentManager, "alertDialogName")
-//
-//            val editTextName = mainDialog.getString(KEY_SEND_DATA)
-//            binding.textViewBoy.text=""
+            val dialogBinding = DialogFragmentNameBinding.inflate(layoutInflater)
+            val newDialog = AlertDialog
+                .Builder(requireContext())
+                .setView(dialogBinding.root)
+                .setCancelable(true)
+                .create()
 
-           //way2
-           val mainDialog = AlertDialogName()
-            mainDialog.show(parentFragmentManager, "alertDialogName")
-
-            val bundle=arguments
-            if (bundle!=null){
-                val editTextName = bundle.getString(KEY_SEND_DATA)
-                binding.textViewBoy.text=editTextName
-            }else{
-                Toast.makeText(context, "enter", Toast.LENGTH_SHORT).show()
+            dialogBinding.btnDialogCancel.setOnClickListener {
+                newDialog.dismiss()
             }
 
+            dialogBinding.btnDialogSubmit.setOnClickListener {
+                val name = dialogBinding.editTextNameDialog.text.toString()
+                binding.textViewBoy.text = name
+                newDialog.dismiss()
+            }
 
+            newDialog.show()
         }
 
 
